@@ -239,17 +239,18 @@ pp $leases if ($o_debug);
 
 foreach my $l_lease (keys %{ $leases->{'leases'} }) {
    my $l_state = $leases->{'leases'}->{$l_lease}->{'binding state'};
-   print "$l_lease->$l_state\n" if ($o_verbose);
+   my $l_hwaddr = defined($leases->{'leases'}->{$l_lease}->{'hardware ethernet'})?$leases->{'leases'}->{$l_lease}->{'hardware ethernet'}:"";
+   print "$l_lease,$l_state,$l_hwaddr\n" if ($o_verbose);
    if (defined($o_subnet)) {
       foreach my $l_subnet (keys %{ $subnet_hash }) {
          if (in_subnet($l_lease, $l_subnet)) { 
             $subnet_hash->{$l_subnet}{$l_state}++; 
-            print("State: $l_state Count: ".$subnet_hash->{$l_subnet}{$l_state}."\n") if ($o_verbose);
+            print("State: $l_state Count: ".$subnet_hash->{$l_subnet}{$l_state}."\n") if ($o_debug);
          }
       }
    } else {
       $subnet_hash->{'0.0.0.0/0'}{$l_state}++;
-      print("State: $l_state Count: ".$subnet_hash->{'0.0.0.0/0'}{$l_state}."\n") if ($o_verbose);
+      print("State: $l_state Count: ".$subnet_hash->{'0.0.0.0/0'}{$l_state}."\n") if ($o_debug);
    }
 }
 
