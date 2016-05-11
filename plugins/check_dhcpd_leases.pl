@@ -215,7 +215,6 @@ if (defined($o_crit)) {
    }
 }
 
-$o_debug=1;
 pp @subnet_list if ($o_debug);
 pp @warn_list if ($o_debug);
 pp @crit_list if ($o_debug);
